@@ -20,7 +20,7 @@ java {
 }
 
 dependencies {
-    implementation project(':library')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
-    ksp project(':library')
+    implementation project(':kotlin-mapper')
+    ksp project(':kotlin-mapper')
 }
