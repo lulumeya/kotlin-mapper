@@ -1,13 +1,13 @@
 package mapper.kotlin.example
 
 import mapper.kotlin.Mapper
-import kotlin.math.abs
 
-/*
- * Click `Run` to execute the snippet below!
- */
-
-@Mapper(DestinationModel::class, DestinationModel2::class, DestinationModel3::class)
+@Mapper(
+    mapper.kotlin.example.sub.OriginModel::class,
+    DestinationModel::class,
+    DestinationModel2::class,
+    DestinationModel3::class
+)
 data class OriginModel(
     val id: Long,
     val name: String,
@@ -15,7 +15,6 @@ data class OriginModel(
     val remains: Long?,
     val loan: Long?
 )
-
 
 data class DestinationModel(
     val id: Long,

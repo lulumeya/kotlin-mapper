@@ -79,11 +79,6 @@ class DataClassMapperProcessor(
             val className = "${originClass.simpleName.asString()}Mapper"
             val fileSpec = FileSpec.builder(packageName, className).indent("\t")
 
-            fileSpec.addImport(originClass.toClassName(), "")
-            targetClasses.map { it.toClassName() }.forEach {
-                fileSpec.addImport(it, "")
-            }
-
             targetClasses.forEach {
                 val targetParams: List<KSValueParameter> =
                     it.primaryConstructor?.parameters ?: return
@@ -125,7 +120,7 @@ class DataClassMapperProcessor(
             }
             funSpec
                 .addStatement(
-                    "return $targetClassName(\n\t\t${
+                    "return ${targetClass.qualifiedName!!.asString()}(\n\t\t${
                         targetParams.joinToString(
                             separator = ",\n\t\t"
                         ) {
