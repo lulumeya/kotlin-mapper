@@ -1,0 +1,4 @@
+public abstract interface annotation class mapper/kotlin/Mapper : java/lang/annotation/Annotation {
+	public abstract fun targetType ()[Ljava/lang/Class;
+}
+
