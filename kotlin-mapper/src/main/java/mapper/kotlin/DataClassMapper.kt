@@ -13,15 +13,15 @@ import com.squareup.kotlinpoet.ksp.writeTo
 import kotlin.reflect.KClass
 
 
-annotation class Mapper(vararg val targetType: KClass<*>)
+public annotation class Mapper(vararg val targetType: KClass<*>)
 
-class DataClassMapper : SymbolProcessorProvider {
+internal class DataClassMapper : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return DataClassMapperProcessor(environment.codeGenerator, environment.logger)
     }
 }
 
-class DataClassMapperProcessor(
+private class DataClassMapperProcessor(
     val codeGenerator: CodeGenerator,
     val logger: KSPLogger
 ) : SymbolProcessor {
