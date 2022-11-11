@@ -13,6 +13,7 @@ import com.squareup.kotlinpoet.ksp.writeTo
 import kotlin.reflect.KClass
 
 
+@Suppress("unused", "RedundantVisibilityModifier")
 public annotation class Mapper(vararg val targetType: KClass<*>)
 
 internal class DataClassMapper : SymbolProcessorProvider {
