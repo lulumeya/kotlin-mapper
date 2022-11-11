@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm' version '1.7.0'
+    id "org.jetbrains.kotlinx.binary-compatibility-validator" version "0.12.1"
 }
 
 java {
