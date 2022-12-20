@@ -15,6 +15,6 @@ kotlin {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION")
-    implementation("com.google.devtools.ksp:symbol-processing-api:$KOTLIN_VERSION-1.0.8")
+    implementation("com.google.devtools.ksp:symbol-processing-api:$KOTLIN_VERSION-$KSP_VERSION")
     implementation("com.squareup:kotlinpoet-ksp:1.12.0")
 }
