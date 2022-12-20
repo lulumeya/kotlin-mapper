@@ -2,6 +2,7 @@
 
 buildscript {
     ext.KOTLIN_VERSION = '1.7.20'
+    ext.KSP_VERSION = '1.0.7'
     repositories {
         mavenCentral()
         google()
