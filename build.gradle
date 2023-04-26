@@ -18,8 +18,8 @@ plugins {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 allprojects {
@@ -41,7 +41,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk17"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-$KOTLIN_VERSION"
 }
 compileKotlin {
     kotlinOptions {
