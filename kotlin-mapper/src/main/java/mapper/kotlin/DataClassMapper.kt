@@ -30,7 +30,8 @@ private class DataClassMapperProcessor(
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val symbols: Sequence<KSAnnotated> =
             resolver.getSymbolsWithAnnotation(Mapper::class.java.name)
-        val ret: List<KSAnnotated> = symbols.filter { !it.validate() }.toList()
+        val ret: List<KSAnnotated> =
+            symbols.filterNot { it is KSClassDeclaration && it.validate() }.toList()
         symbols
             .filter { it is KSClassDeclaration && it.validate() }
             .forEach {
@@ -46,24 +47,21 @@ private class DataClassMapperProcessor(
                 it.annotationType.element?.run {
                     this is KSClassifierReference && this.referencedName() == Mapper::class.simpleName
                 } ?: false
-            }.forEach {
-                it.arguments.mapNotNull { it.value }.forEach {
-                    if (it is KSType) {
-                        val declaration = it.declaration
+            }.forEach { annotation ->
+                annotation.arguments.mapNotNull { it.value }.forEach { arguments ->
+                    if (arguments is KSType) {
+                        val declaration = arguments.declaration
                         if (declaration is KSClassDeclaration) {
                             generateMapperFunction(
                                 targetClasses = listOf(declaration),
                                 originClass = classDeclaration
                             )
                         }
-                    } else if (it is Collection<*>) {
-                        it.mapNotNull { (it as? KSType)?.declaration as? KSClassDeclaration }
-                            .let { list ->
-                                generateMapperFunction(
-                                    targetClasses = list,
-                                    originClass = classDeclaration
-                                )
-                            }
+                    } else if (arguments is Collection<*>) {
+                        generateMapperFunction(
+                            targetClasses = arguments.mapNotNull { (it as? KSType)?.declaration as? KSClassDeclaration },
+                            originClass = classDeclaration
+                        )
                     }
                 }
             }
@@ -139,13 +137,13 @@ private class DataClassMapperProcessor(
                     ).build()
                 )
             }
-            paramsWithDefaultValue.forEach {
-                val name = it.name!!.asString()
+            paramsWithDefaultValue.forEach { parameter ->
+                val name = parameter.name!!.asString()
                 val defaultValue = originClass.getDeclaredProperties()
                     .find { it.simpleName.asString() == name }?.simpleName
                 val builder = ParameterSpec.builder(
                     name = name,
-                    type = it.type.toTypeName()
+                    type = parameter.type.toTypeName()
                 )
                 defaultValue?.run {
                     builder.defaultValue(
