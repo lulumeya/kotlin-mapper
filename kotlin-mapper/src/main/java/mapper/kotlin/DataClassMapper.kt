@@ -30,14 +30,12 @@ private class DataClassMapperProcessor(
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val symbols: Sequence<KSAnnotated> =
             resolver.getSymbolsWithAnnotation(Mapper::class.java.name)
-        val ret: List<KSAnnotated> =
-            symbols.filterNot { it is KSClassDeclaration && it.validate() }.toList()
         symbols
-            .filter { it is KSClassDeclaration && it.validate() }
+            .filter { it is KSClassDeclaration }
             .forEach {
                 it.accept(BuilderVisitor(), Unit)
             }
-        return ret
+        return listOf()
     }
 
     inner class BuilderVisitor : KSVisitorVoid() {
